@@ -2,7 +2,9 @@
 
 [Wiki]: https://github.com/Seongjun-Moon/Lowest-Price-Calculator/wiki	"Wiki"
 
+### Wiki
 
+[Wiki]: https://github.com/Seongjun-Moon/Lowest-Price-Calculator/wiki	"Wiki"
 
 
 
