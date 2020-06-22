@@ -5,7 +5,7 @@
     <br />
     <br />
     <MainDisplay v-if="containerName === 'main'" />
-    <LpcDisplay v-else-if="containerName === 'lpc'" />
+    <LpcDisplay v-else-if="containerName === 'lpc'" @input="input" />
     <TaxDisplay v-else-if="containerName === 'tax'" />
     <WishDisplay v-else-if="containerName === 'wish'" />
   </div>
@@ -17,6 +17,7 @@ import MainDisplay from "./components/MainDisplay";
 import LpcDisplay from "./components/LpcDisplay";
 import TaxDisplay from "./components/TaxDisplay";
 import WishDisplay from "./components/WishDisplay";
+import axios from "axios";
 
 export default {
   name: "App",
@@ -25,18 +26,28 @@ export default {
     MainDisplay,
     LpcDisplay,
     TaxDisplay,
-    WishDisplay
+    WishDisplay,
   },
   data() {
     return {
-      containerName: "main"
+      containerName: "main",
+      searchResult: [],
     };
   },
   methods: {
     isButtonClicked(value) {
       this.containerName = value;
-    }
-  }
+    },
+    input(searchValue) {
+      console.log(searchValue);
+      axios
+        .post("http://localhost:7777/lpc/search", { searchValue })
+        .then((res) => {
+          console.log(res.data);
+          this.searchResult = res.data.searchResult;
+        });
+    },
+  },
 };
 </script>
 
