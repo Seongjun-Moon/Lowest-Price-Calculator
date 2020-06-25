@@ -3,16 +3,22 @@
     <h2>최저가 검색해보실?</h2>
     <input type="text" @keypress.enter="input" v-model="searchValue" />
     <div>
-      <h1>샵백</h1>
-      <ul v-for="searchData in searchDatas" :key="searchData.id">
-        <li>
-          <img :src="searchData.image_url" :alt="searchData.image_alt" />
-          {{searchData.summary}}
-        </li>
-      </ul>
-    </div>
-    <div>
-      <h1>캐치패션</h1>
+      <div class="cashDisplay">
+        <div class="SHOPBACK">
+          <h1>샵백</h1>
+          <div class="ui three column grid">
+            <div class="column" v-for="searchData in searchDatas" :key="searchData.id">
+              <div class="ui segment">
+                <img :src="searchData.image_url" :alt="searchData.image_alt" width="50px" />
+                <p class>{{searchData.summary}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h1>캐치패션</h1>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -36,4 +42,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.cashDisplay {
+  display: grid;
+  /* justify-content: space-evenly; */
+  grid-template-columns: 1fr 1fr;
+}
+</style>
