@@ -5,7 +5,7 @@
     <br />
     <br />
     <MainDisplay v-if="containerName === 'main'" />
-    <LpcDisplay v-else-if="containerName === 'lpc'" @input="input" />
+    <LpcDisplay v-else-if="containerName === 'lpc'" @input="input" :searchDatas="searchDatas" />
     <TaxDisplay v-else-if="containerName === 'tax'" />
     <WishDisplay v-else-if="containerName === 'wish'" />
   </div>
@@ -26,12 +26,12 @@ export default {
     MainDisplay,
     LpcDisplay,
     TaxDisplay,
-    WishDisplay,
+    WishDisplay
   },
   data() {
     return {
       containerName: "main",
-      searchResult: [],
+      searchDatas: []
     };
   },
   methods: {
@@ -42,12 +42,21 @@ export default {
       console.log(searchValue);
       axios
         .post("http://localhost:7777/lpc/search", { searchValue })
-        .then((res) => {
-          console.log(res.data);
-          this.searchResult = res.data.searchResult;
+        .then(res => {
+          const searchResults = res.data.img_data;
+          const searchResults2 = res.data.summary_data;
+          // console.log(
+          //   Object.assign({ ...this.searchResults[0] }, this.searchResults2[0])
+          // );
+          for (let i = 0; i < searchResults.length; i++) {
+            this.searchDatas.push(
+              Object.assign({ ...searchResults[i] }, searchResults2[i])
+            );
+          }
+          console.log(this.searchDatas);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
