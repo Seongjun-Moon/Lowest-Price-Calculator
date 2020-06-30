@@ -2,49 +2,27 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const cheerio = require("cheerio");
+var casperProcess = process.platform === "win32" ? "casperjs.cmd" : "casperjs";
+var spawn = require("child_process").spawn;
+var child = spawn(casperProcess, ["casper_script.js"]);
+var cash_Data = [];
 
-/* router.post("/search", async (req, res) => {
-  console.log(req.body.searchValue);
-  const searchValue = req.body.serchValue;
+child.stdout.on("data", function (data) {
+  //console.log(data);
+  console.log(String(data));
+  cash_Data.push(String(data).split(","));
+  //console.log("spawnSTDOUT:", JSON.stringify(data));
+});
+child.stderr.on("data", function (data) {
+  console.log("spawnSTDERR:", JSON.stringify(data));
+});
 
-   try {
-    const searchResult = `https://www.catchfashion.com/men/search/${searchValue}`;
-    res.json({ message: true, searchResult });
-  } catch (err) {
-    console.log(err);
-    res.json({ message: false });
-  }
-  const getHtml = async () => {
-    try {
-      return await axios.get("https://www.naver.com");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  getHtml()
-    .then((html) => {
-      let ulList = [];
-      const $ = cheerio.load(html.data);
-      const $bodyList = $(
-        "div.NM_RTK_VIEW_list_map ul.list_realtime NM_RTK_VIEW_list_content"
-      ).children("li.realtime_item");
-
-      $bodyList.each(function (i, elem) {
-        ulList[i] = {
-          title: $(this).find("span.keyword").text(),
-          url: $(this).find("a.link_keyword").attr("href"),
-        };
-      });
-
-      const data = ulList.filter((n) => n.title);
-      return data;
-    })
-    .then((res) => console.log(res));
-}); */
+// child.on("exit", function (code) {
+//   console.log("spawnEXIT:", code);
+// });
 
 router.post("/search", function (req, res, next) {
-  const url = "https://www.yna.co.kr/sports/all";
+  // const url = "https://www.yna.co.kr/sports/all";
   const url2 = "https://www.shopback.co.kr/luxury-fashion";
 
   axios.get(url2).then((html) => {
@@ -58,13 +36,6 @@ router.post("/search", function (req, res, next) {
     //each : list 마다 함수 실행, forEach와 동일
     $bodyList.each(function (i, elem) {
       ulList[i] = {
-        //find : 해당 태그가 있으면 그 요소 반환
-        // title: $(this).find("strong.tit-news").text(),
-        // url: $(this).find("a.tit-wrap").attr("href"),
-        // summary: $(this).find("p.lead").text().slice(0, -11),
-        // image_url: $(this).find("p.poto a img").attr("src"),
-        // image_alt: $(this).find("p.poto a img").attr("alt"),
-        //title: $(this).find("div.sc-kkwfeq cfayGf"),
         image_url: $(this).find("img").attr("src"),
         image_alt: $(this).find("img").attr("alt"),
       };
@@ -78,7 +49,7 @@ router.post("/search", function (req, res, next) {
     const img_data = ulList.filter((n) => n.image_alt);
     const summary_data = summaryList.filter((n) => n.summary);
     //json으로 변환하여 app으로 전송
-    return res.json({ img_data, summary_data });
+    return res.json({ img_data, summary_data, cash_Data });
   });
 });
 
