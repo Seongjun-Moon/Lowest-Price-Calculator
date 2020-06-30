@@ -15,9 +15,20 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class="CATCHFASSION">
           <h1>캐치패션</h1>
+          <div class="ui three column grid">
+            <div clss="column" v-for="searchData2 in searchDatas2" :key="searchData2.id">
+              <div class="ui segment">
+                <img :src="searchData2.img_src" alt />
+                <p>{{searchData2.cash_value}}</p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div>
+        <h1>계산기능</h1>
       </div>
     </div>
   </div>
@@ -32,7 +43,8 @@ export default {
     };
   },
   props: {
-    searchDatas: Array
+    searchDatas: Array,
+    searchDatas2: Array
   },
   methods: {
     input() {
