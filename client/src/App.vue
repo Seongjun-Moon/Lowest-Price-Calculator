@@ -5,7 +5,12 @@
     <br />
     <br />
     <MainDisplay v-if="containerName === 'main'" />
-    <LpcDisplay v-else-if="containerName === 'lpc'" @input="input" :searchDatas="searchDatas" />
+    <LpcDisplay
+      v-else-if="containerName === 'lpc'"
+      @input="input"
+      :searchDatas="searchDatas"
+      :searchDatas2="searchDatas2"
+    />
     <TaxDisplay v-else-if="containerName === 'tax'" />
     <WishDisplay v-else-if="containerName === 'wish'" />
   </div>
@@ -31,7 +36,8 @@ export default {
   data() {
     return {
       containerName: "main",
-      searchDatas: []
+      searchDatas: [],
+      searchDatas2: []
     };
   },
   methods: {
@@ -45,6 +51,11 @@ export default {
         .then(res => {
           const searchResults = res.data.img_data;
           const searchResults2 = res.data.summary_data;
+          const cash_value = JSON.parse(res.data.cash_Data[0]);
+          const cash_img = JSON.parse(res.data.cash_Data[1]);
+          // const cash_search = JSON.parse(searchResults_cash);
+
+          // console.log(cash_search);
           // console.log(
           //   Object.assign({ ...this.searchResults[0] }, this.searchResults2[0])
           // );
@@ -54,6 +65,19 @@ export default {
             );
           }
           console.log(this.searchDatas);
+
+          for (let i = 0; i < cash_img.length; i++) {
+            this.searchDatas2.push(
+              Object.assign({ ...cash_value[i] }, cash_img[i])
+            );
+          }
+          console.log(this.searchDatas2);
+          /* for (let i = 1; i < 15; i++) {
+            this.searchResults_cash.push({
+              img_src: searchResults_cash[i].img_src
+            });
+          }
+          console.log(this.searchResults_cash); */
         });
     }
   }
