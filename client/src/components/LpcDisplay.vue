@@ -7,10 +7,18 @@
         <div class="SHOPBACK">
           <h1>샵백</h1>
           <div class="ui three column grid">
-            <div class="column" v-for="searchData in searchDatas" :key="searchData.id">
+            <div
+              class="column"
+              v-for="searchData in searchDatas"
+              :key="searchData.id"
+            >
               <div class="ui segment">
-                <img :src="searchData.image_url" :alt="searchData.image_alt" width="50px" />
-                <p class>{{searchData.summary}}</p>
+                <img
+                  :src="searchData.image_url"
+                  :alt="searchData.image_alt"
+                  width="50px"
+                />
+                <p class>{{ searchData.summary }}</p>
               </div>
             </div>
           </div>
@@ -18,17 +26,18 @@
         <div class="CATCHFASSION">
           <h1>캐치패션</h1>
           <div class="ui three column grid">
-            <div clss="column" v-for="searchData2 in searchDatas2" :key="searchData2.id">
+            <div
+              clss="column"
+              v-for="searchData2 in searchDatas2"
+              :key="searchData2.id"
+            >
               <div class="ui segment">
-                <img :src="searchData2.img_src" alt />
-                <p>{{searchData2.cash_value}}</p>
+                <img :src="searchData2.img_src" width="50px" />
+                <p>{{ searchData2.cash_value }}</p>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <h1>계산기능</h1>
       </div>
     </div>
   </div>
@@ -39,18 +48,18 @@ export default {
   name: "LpcDisplay",
   data() {
     return {
-      searchValue: null
+      searchValue: null,
     };
   },
   props: {
     searchDatas: Array,
-    searchDatas2: Array
+    searchDatas2: Array,
   },
   methods: {
     input() {
       this.$emit("input", this.searchValue);
-    }
-  }
+    },
+  },
 };
 </script>
 
