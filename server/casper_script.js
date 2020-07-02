@@ -44,7 +44,7 @@ casper.then(function () {
 }); */
 casper.then(function () {
   var cashValue = this.evaluate(function () {
-    var cash = document.querySelectorAll("div.zHwHO");
+    var cash = document.querySelectorAll("div.cJPTCu");
     var cashList = [];
     for (var i = 0; i < cash.length; i++) {
       cashList.push({ cash_value: cash[i].innerHTML });
@@ -52,7 +52,7 @@ casper.then(function () {
     return JSON.stringify(cashList);
   });
   this.echo(cashValue);
-  //console.log(cashValue);
+  // console.log(cashValue);
 });
 
 //이미지 주소 받아오기
@@ -60,8 +60,8 @@ casper.then(function () {
   var images = this.evaluate(function () {
     var cashImages = document.getElementsByTagName("img");
     // var cashImages = document.querySelectorAll("img.hahYCD");
-    var cashImagesClass = document.querySelectorAll("img.jIsqQo");
-    console.log(cashImages);
+    var cashImagesClass = document.querySelectorAll("img.bAgfvj");
+    //console.log(cashImages);
     var allSrc = [];
     for (var i = 0; i < cashImagesClass.length; i++) {
       allSrc.push({ img_src: cashImagesClass[i].src });
