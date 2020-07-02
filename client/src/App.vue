@@ -51,8 +51,11 @@ export default {
         .then(res => {
           const searchResults = res.data.img_data;
           const searchResults2 = res.data.summary_data;
+
+          console.log(res.data.cash_Data);
           const cash_value = JSON.parse(res.data.cash_Data[0]);
           const cash_img = JSON.parse(res.data.cash_Data[1]);
+
           // const cash_search = JSON.parse(searchResults_cash);
 
           // console.log(cash_search);

@@ -25,43 +25,35 @@
               v-for="exchange_value in exchange_values"
               :key="exchange_value.cur_nm"
               :value="exchange_value.tts"
-              >{{ exchange_value.cur_unit }}</option
-            >
+            >{{ exchange_value.cur_unit }}</option>
           </select>
           <br />
 
-          <label for="lname">물품무게 :</label>
+          <!-- <label for="lname">물품무게 :</label>
           <input type="text" id="weight" name="weight" />
 
           <select name="weightUnit" id="weightUnit">
             <option value="kg">kg</option>
             <option value="lb">lb</option>
             <option value="oz">oz</option> </select
-          ><br />
+          ><br />-->
           <button @click="taxCalculate">계산</button>
           <p>최종가격 : {{ this.calculation }}원</p>
         </div>
-        <br /><br />
+        <br />
+        <br />
         <p>
           * 미국에서 직구 : $200 초과시 관부가세
-          <br />
-          * 미국 외 국가에서 직구 : $150 초과시 관부가세
-          <br />
-          * 무게에 따른 비용 및 배송비는 제외
+          <br />* 미국 외 국가에서 직구 : $150 초과시 관부가세
+          <br />* 무게에 따른 비용 및 배송비는 제외
         </p>
       </div>
       <div class="EXCHANGE_RATE">
         <h2>환율(원)</h2>
-        <div
-          v-for="exchange_value in exchange_values"
-          :key="exchange_value.cur_nm"
-        >
+        <div v-for="exchange_value in exchange_values" :key="exchange_value.cur_nm">
           {{ exchange_value.cur_nm }}
           {{ "(" + exchange_value.cur_unit + ")" }}
-
-          <p :id="exchange_value.cur_unit">
-            {{ exchange_value.tts }}
-          </p>
+          <p :id="exchange_value.cur_unit">{{ exchange_value.tts }}</p>
         </div>
       </div>
     </div>
@@ -77,7 +69,7 @@ export default {
     return {
       exchange_values: [],
       cur_unit: ["USD", "EUR", "JPY(100)", "CNH", "HKD", "AUD", "GBP", "CAD"],
-      calculation: "",
+      calculation: ""
     };
   },
   created() {
@@ -85,7 +77,7 @@ export default {
   },
   methods: {
     exchange() {
-      axios.get("http://localhost:7777/tax/exchange").then((res) => {
+      axios.get("http://localhost:7777/tax/exchange").then(res => {
         const a = res.data.exchange;
         for (let i = 0; i < a.length; i++) {
           for (let j = 0; j < this.cur_unit.length; j++) {
@@ -93,7 +85,7 @@ export default {
               this.exchange_values.push({
                 cur_nm: a[i].cur_nm,
                 cur_unit: a[i].cur_unit,
-                tts: a[i].tts,
+                tts: a[i].tts
               });
             }
           }
@@ -139,8 +131,8 @@ export default {
           return (this.calculation = (price * currency).toFixed(2));
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
