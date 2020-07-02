@@ -9,7 +9,7 @@ var cash_Data = [];
 
 child.stdout.on("data", function (data) {
   //console.log(data);
-  console.log(String(data));
+  console.log(String(data).split(","));
   cash_Data.push(String(data).split(","));
   //console.log("spawnSTDOUT:", JSON.stringify(data));
 });
