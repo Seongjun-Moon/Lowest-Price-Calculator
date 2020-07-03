@@ -2,7 +2,7 @@
   <div>
     <div class="TAX_DISPLAY">
       <div class="tax">
-        <h2>관부가세 계산해보실?</h2>
+        <h2>관부가세 및 최종가격 계산</h2>
         <br />
         <div>
           구입국가
@@ -37,8 +37,16 @@
             <option value="lb">lb</option>
             <option value="oz">oz</option> </select
           ><br />-->
+          캐시백률
+          <input type="text" id="cashBack" />
+          <br />
           <button @click="taxCalculate">계산</button>
-          <p>최종가격 : {{ this.calculation }}원</p>
+          <br />
+          <br />
+          <p>관,부가세 : {{this.taxValue}}원</p>
+
+          <p>가격 : {{ this.calculation }}원</p>
+          <p>캐시백 후 가격 : {{this.afterCash}}원</p>
         </div>
         <br />
         <br />
@@ -46,6 +54,7 @@
           * 미국에서 직구 : $200 초과시 관부가세
           <br />* 미국 외 국가에서 직구 : $150 초과시 관부가세
           <br />* 무게에 따른 비용 및 배송비는 제외
+          <br />* 캐시백은 관부가세를 제외한 물품 가격에 대해서만 적용
         </p>
       </div>
       <div class="EXCHANGE_RATE">
@@ -69,7 +78,9 @@ export default {
     return {
       exchange_values: [],
       cur_unit: ["USD", "EUR", "JPY(100)", "CNH", "HKD", "AUD", "GBP", "CAD"],
-      calculation: ""
+      calculation: "",
+      taxValue: "",
+      afterCash: ""
     };
   },
   created() {
@@ -93,6 +104,8 @@ export default {
       });
     },
     taxCalculate() {
+      this.taxValue = "";
+      this.taxValue = "";
       const country = document.getElementById("country").value;
       const price = Number(document.getElementById("price").value);
       const dollar = Number(
@@ -101,34 +114,76 @@ export default {
       const currency = Number(
         document.getElementById("currency").value.replace(",", "")
       );
-      console.log(dollar);
       console.log(currency);
+      const tax_value = price * 0.13 + (price + price * 0.13) * 0.01;
+      const cashBack = Number(document.getElementById("cashBack").value) * 0.01;
+      const isTax = (price + price * 0.13) * 1.1 * currency;
       if (country == "미국") {
         if (price > 200) {
-          return (this.calculation = (
-            (price + price * 0.13) *
-            1.1 *
-            dollar
-          ).toFixed(2));
+          return (
+            // 미국에서 $200 초과시 관세
+            (this.taxValue = (tax_value * currency).toLocaleString(undefined, {
+              maximumFractionDigits: 0
+            })),
+            (this.calculation = isTax.toLocaleString(undefined, {
+              maximumFractionDigits: 0
+            })),
+            // 캐시백 : 총 가격-(원래 가격price * dollar * 10%)
+            (this.afterCash = (
+              isTax -
+              price * currency * cashBack
+            ).toLocaleString(undefined, { maximumFractionDigits: 0 }))
+          );
         } else {
-          // return (this.calculation = price);
+          // 미국에서 $200 이하 미관세
 
-          return (this.calculation = (dollar * price).toFixed(2));
+          return (
+            (this.calculation = (currency * price).toLocaleString(undefined, {
+              maximumFractionDigits: 0
+            })),
+            (this.afterCash = (
+              currency *
+              price *
+              (1 - cashBack)
+            ).toLocaleString(undefined, {
+              maximumFractionDigits: 0
+            }))
+          );
         }
       } else {
+        // 미국 외 국가
         if (price * currency > 150 * dollar) {
           //관부가세
-          // 미국외 국가는 150$ 이상부터 관부가세가 붙으니
+          // 미국외 국가는 150$ 초과부터 관부가세가 붙으니
           // 해당국가 통화 * 구입가격 > 150*dollar
-          return (this.calculation = (
-            (price + price * 0.13) *
-            1.1 *
-            currency
-          ).toFixed(2));
-          // 통화 바꾸기
-          // price
+          return (
+            (this.taxValue = (tax_value * currency).toLocaleString(undefined, {
+              maximumFractionDigits: 0
+            })),
+            (this.calculation = isTax.toLocaleString(undefined, {
+              maximumFractionDigits: 0
+            })),
+            (this.afterCash = (
+              isTax -
+              price * currency * cashBack
+            ).toLocaleString(undefined, {
+              maximumFractionDigits: 0
+            }))
+          );
         } else {
-          return (this.calculation = (price * currency).toFixed(2));
+          // 미국 외 국가 $150 이하 미관세
+          return (
+            (this.calculation = (price * currency).toLocaleString(undefined, {
+              maximumFractionDigits: 0
+            })),
+            (this.afterCash = (
+              price *
+              currency *
+              (1 - cashBack)
+            ).toLocaleString(undefined, {
+              maximumFractionDigits: 0
+            }))
+          );
         }
       }
     }
