@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h2>최저가 검색해보실?</h2>
+    <h2>해외편집샵 캐시백 정보</h2>
     <input type="text" @keypress.enter="input" v-model="searchValue" />
+    <br />
+    <br />
     <div>
       <div class="cashDisplay">
         <div class="SHOPBACK">
@@ -26,20 +28,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <br />
-      <hr />
-      <br />
-      <div id="calculatie">
-        <h2>계산기</h2>판매가격 :
-        <input type="text" />
-        <br />판매 편집샵 :
-        <select name id></select>
-        <br />캐시백 :
-        <input type="text" placeholder="10%" />
-        <button>계산</button>
-        <br />최종가격 :
-        <br />
       </div>
     </div>
   </div>
@@ -70,8 +58,5 @@ export default {
   display: grid;
   /* justify-content: space-evenly; */
   grid-template-columns: 1fr 1fr;
-}
-#calculate {
-  justify-content: center;
 }
 </style>
