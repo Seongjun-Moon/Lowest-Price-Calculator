@@ -1,22 +1,32 @@
 <template>
   <div id="app">
-    <h1>문씨네 직구정보</h1>
-    <List @isButtonClicked="isButtonClicked" />
-    <br />
-    <br />
-    <MainDisplay v-if="containerName === 'main'" />
-    <LpcDisplay
-      v-else-if="containerName === 'lpc'"
-      @input="input"
-      :searchDatas="searchDatas"
-      :searchDatas2="searchDatas2"
-    />
-    <TaxDisplay v-else-if="containerName === 'tax'" />
-    <WishDisplay v-else-if="containerName === 'wish'" />
+    <MainPage @isButtonClicked="isButtonClicked" v-if="containerName === 'mainPage'" />
+    <div v-else>
+      <div @click="home">
+        <h1>문씨네 직구정보</h1>
+      </div>
+
+      <br />
+      <List @isButtonClicked="isButtonClicked" />
+
+      <br />
+      <br />
+      <MainDisplay v-if="containerName === 'main'" />
+
+      <LpcDisplay
+        v-else-if="containerName === 'lpc'"
+        @input="input"
+        :searchDatas="searchDatas"
+        :searchDatas2="searchDatas2"
+      />
+      <TaxDisplay v-else-if="containerName === 'tax'" />
+      <WishDisplay v-else-if="containerName === 'wish'" />
+    </div>
   </div>
 </template>
 
 <script>
+import MainPage from "./components/MainPage";
 import List from "./components/List";
 import MainDisplay from "./components/MainDisplay";
 import LpcDisplay from "./components/LpcDisplay";
@@ -27,6 +37,7 @@ import axios from "axios";
 export default {
   name: "App",
   components: {
+    MainPage,
     List,
     MainDisplay,
     LpcDisplay,
@@ -35,7 +46,7 @@ export default {
   },
   data() {
     return {
-      containerName: "main",
+      containerName: "mainPage",
       searchDatas: [],
       searchDatas2: []
     };
@@ -82,6 +93,9 @@ export default {
           }
           console.log(this.searchResults_cash); */
         });
+    },
+    home() {
+      window.location.href = "http://localhost:8080";
     }
   }
 };
