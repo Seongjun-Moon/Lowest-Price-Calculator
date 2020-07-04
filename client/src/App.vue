@@ -1,27 +1,29 @@
 <template>
   <div id="app">
-    <MainPage @isButtonClicked="isButtonClicked" v-if="containerName === 'mainPage'" />
+    <MainPage
+      @isButtonClicked="isButtonClicked"
+      v-if="containerName === 'mainPage'"
+    />
+
     <div v-else>
-      <div @click="home">
-        <h1>문씨네 직구정보</h1>
-      </div>
+      <header>
+        <h1 class="main-title" @click="home">문씨네 직구정보</h1>
+        <List @isButtonClicked="isButtonClicked" />
+      </header>
 
-      <br />
-      <List @isButtonClicked="isButtonClicked" />
-
-      <br />
-      <br />
-      <MainDisplay v-if="containerName === 'main'" />
-
-      <LpcDisplay
-        v-else-if="containerName === 'lpc'"
-        @input="input"
-        :searchDatas="searchDatas"
-        :searchDatas2="searchDatas2"
-      />
-      <TaxDisplay v-else-if="containerName === 'tax'" />
-      <WishDisplay v-else-if="containerName === 'wish'" />
+      <main>
+        <MainDisplay v-if="containerName === 'main'" />
+        <LpcDisplay
+          v-else-if="containerName === 'lpc'"
+          @input="input"
+          :searchDatas="searchDatas"
+          :searchDatas2="searchDatas2"
+        />
+        <TaxDisplay v-else-if="containerName === 'tax'" />
+        <WishDisplay v-else-if="containerName === 'wish'" />
+      </main>
     </div>
+    <footer class="footer">©Moon🌙</footer>
   </div>
 </template>
 
@@ -42,13 +44,13 @@ export default {
     MainDisplay,
     LpcDisplay,
     TaxDisplay,
-    WishDisplay
+    WishDisplay,
   },
   data() {
     return {
       containerName: "mainPage",
-      searchDatas: [],
-      searchDatas2: []
+      searchDatas: null,
+      searchDatas2: null,
     };
   },
   methods: {
@@ -56,10 +58,12 @@ export default {
       this.containerName = value;
     },
     input(searchValue) {
+      this.searchDatas = [];
+      this.searchDatas2 = [];
       console.log(searchValue);
       axios
         .post("http://localhost:7777/lpc/search", { searchValue })
-        .then(res => {
+        .then((res) => {
           const searchResults = res.data.img_data;
           const searchResults2 = res.data.summary_data;
 
@@ -96,18 +100,20 @@ export default {
     },
     home() {
       window.location.href = "http://localhost:8080";
-    }
-  }
+    },
+  },
+  created() {
+    this.input();
+  },
 };
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; */
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 50px;
 }
 </style>

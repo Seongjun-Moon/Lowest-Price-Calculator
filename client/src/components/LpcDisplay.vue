@@ -1,36 +1,50 @@
 <template>
-  <div>
+  <section class="lpcDisplay">
     <h2>해외편집샵 캐시백 정보</h2>
-    <input type="text" @keypress.enter="input" v-model="searchValue" />
-    <br />
-    <br />
-    <div>
-      <div class="cashDisplay">
-        <div class="SHOPBACK">
-          <h1>샵백</h1>
-          <div class="ui three column grid">
-            <div class="column" v-for="searchData in searchDatas" :key="searchData.id">
-              <div class="ui segment">
-                <img :src="searchData.image_url" :alt="searchData.image_alt" width="50px" />
-                <p class>{{ searchData.summary }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="CATCHFASSION">
-          <h1>캐치패션</h1>
-          <div class="ui three column grid">
-            <div clss="column" v-for="searchData2 in searchDatas2" :key="searchData2.id">
-              <div class="ui segment">
-                <img :src="searchData2.img_src" width="50px" />
-                <p>{{ searchData2.cash_value }}</p>
-              </div>
-            </div>
+
+    <article
+      v-if="searchDatas.length > 0 && searchDatas2.length > 0"
+      class="shoplist-container"
+    >
+      <div class="shopback">
+        <h1>샵백</h1>
+        <div class="shopback-list">
+          <div
+            class="shopback-list_item"
+            v-for="searchData in searchDatas"
+            :key="searchData.id"
+          >
+            <div
+              class="shopback-list_item-img"
+              :style="{
+                'background-image': 'url(' + searchData.image_url + ')',
+              }"
+            ></div>
+            <p class>{{ searchData.summary }}</p>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+
+      <div class="catchFashion">
+        <h1>캐치패션</h1>
+        <div class="catchFashion-list">
+          <div
+            class="catchFashion-list_item"
+            v-for="searchData2 in searchDatas2"
+            :key="searchData2.id"
+          >
+            <div
+              class="catchFashion-list_item-img"
+              :style="{
+                'background-image': 'url(' + searchData2.img_src + ')',
+              }"
+            ></div>
+            <p>{{ searchData2.cash_value }}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
 </template>
 
 <script>
@@ -38,25 +52,16 @@ export default {
   name: "LpcDisplay",
   data() {
     return {
-      searchValue: null
+      searchValue: null,
     };
   },
   props: {
     searchDatas: Array,
-    searchDatas2: Array
+    searchDatas2: Array,
   },
-  methods: {
-    input() {
-      this.$emit("input", this.searchValue);
-    }
-  }
 };
 </script>
 
-<style>
-.cashDisplay {
-  display: grid;
-  /* justify-content: space-evenly; */
-  grid-template-columns: 1fr 1fr;
-}
+<style lang="scss">
+@import "@/scss/main.scss";
 </style>

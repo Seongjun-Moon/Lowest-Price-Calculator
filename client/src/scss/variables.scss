@@ -1,0 +1,20 @@
+$lightPurple: #d0bdf4;
+$purple: #8458b3;
+$charcoal: #494d5f;
+
+.main-btn {
+  all: unset;
+  cursor: pointer;
+  display: block;
+  margin: 1rem auto;
+  width: 8rem;
+  height: 2rem;
+  border: 1px solid $charcoal;
+  border-radius: 5px;
+  padding: 5px;
+
+  &:hover {
+    background-color: $charcoal;
+    color: white;
+  }
+}

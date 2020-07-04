@@ -1,11 +1,14 @@
 <template>
   <div class="main" @click.prevent="$emit('isButtonClicked', main)">
+    <span>🌙</span>
     <span>문</span>
     <span>씨</span>
     <span>네</span>
     <span class="letter"></span>
-    <span>직구</span>
-    <span>정보</span>
+    <span>직</span>
+    <span>구</span>
+    <span>정</span>
+    <span>보</span>
   </div>
 </template>
 
@@ -14,9 +17,9 @@ export default {
   name: "MainPage",
   data() {
     return {
-      main: "main"
+      main: "main",
     };
-  }
+  },
 };
 </script>
 

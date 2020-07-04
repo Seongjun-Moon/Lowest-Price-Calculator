@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2>장바구니 담아보실?</h2>
+    <h1 class="cart">🛒</h1>
+    <h2>추후 개발될 예정입니다...</h2>
   </div>
 </template>
 
@@ -8,5 +9,4 @@
 export default {};
 </script>
 
-<style>
-</style>
+<style></style>
