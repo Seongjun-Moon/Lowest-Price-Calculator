@@ -97,7 +97,7 @@ export default {
       exchange_values: [],
       cur_unit: ["USD", "EUR", "JPY(100)", "CNH", "HKD", "AUD", "GBP", "CAD"],
       calculation: "",
-      taxValue: "",
+      taxValue: "0",
       afterCash: "",
     };
   },
@@ -122,8 +122,7 @@ export default {
       });
     },
     taxCalculate() {
-      this.taxValue = "";
-      this.taxValue = "";
+      this.taxValue = "0";
       const country = document.getElementById("country").value;
       const price = Number(document.getElementById("price").value);
       const dollar = Number(
